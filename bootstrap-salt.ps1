@@ -14,8 +14,8 @@ try {
 }
 
 # Display the script content
-Write-Host "Downloaded Script Content:"
-Write-Host $scriptContent
+# Write-Host "Downloaded Script Content:"
+# Write-Host $scriptContent
 
 # Save the script to a temporary file
 $tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
