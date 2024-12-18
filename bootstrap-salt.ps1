@@ -5,15 +5,18 @@
 $scriptUrl = "https://github.com/saltstack/salt-bootstrap/releases/latest/download/bootstrap-salt.ps1"
 
 # Download the script
+Write-Host "Downloading Bootstrap Script"
 $scriptContent = Invoke-WebRequest -Uri $scriptUrl -UseBasicParsing
 
 # Save the script to a temporary file
 $tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
 Set-Content -Path $tempScriptPath -Value $scriptContent.Content
 
+Write-Host "Executing Bootstrap Script"
 # Execute the downloaded script with the same parameters
-& $tempScriptPath @args
+Start-Process powershell -ArgumentList "-File `"$tempScriptPath`" $($args -join ' ')" -Verb RunAs -Wait
 
+Write-Host "Clean up the temporary file"
 # Clean up the temporary file
 Remove-Item -Path $tempScriptPath
 
