@@ -13,7 +13,7 @@ __fetch_url() {
             fetch -q -o "$1" "$2" >/dev/null 2>&1 ||  # FreeBSD
                 fetch -q -o "$1" "$2" >/dev/null 2>&1          ||  # Pre FreeBSD 10
                     ftp -o "$1" "$2" >/dev/null 2>&1           ||  # OpenBSD
-                        (echoerror "$2 failed to download to $1"; exit 1)
+                        (echo -e "\033[0;31m$2 failed to download to $1\033[0m"; exit 1)
 }
 
 # Download the bootstrap-salt.sh script using __fetch_url
