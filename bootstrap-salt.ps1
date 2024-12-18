@@ -8,6 +8,10 @@ $scriptUrl = "https://github.com/saltstack/salt-bootstrap/releases/latest/downlo
 Write-Host "Downloading Bootstrap Script"
 $scriptContent = Invoke-WebRequest -Uri $scriptUrl -UseBasicParsing
 
+# Display the script content
+Write-Host "Downloaded Script Content:"
+Write-Host $scriptContent.Content
+
 # Save the script to a temporary file
 $tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
 Set-Content -Path $tempScriptPath -Value $scriptContent.Content
