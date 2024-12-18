@@ -4,17 +4,22 @@
 # Define the URL of the script to download
 $scriptUrl = "https://github.com/saltstack/salt-bootstrap/releases/latest/download/bootstrap-salt.ps1"
 
-# Download the script
+# Download the script using Invoke-RestMethod
 Write-Host "Downloading Bootstrap Script"
-$scriptContent = Invoke-WebRequest -Uri $scriptUrl -UseBasicParsing
+try {
+    $scriptContent = Invoke-RestMethod -Uri $scriptUrl -MaximumRedirection 5 -ContentType "text/plain"
+} catch {
+    Write-Host "Error downloading script: $_" -ForegroundColor Red
+    exit 1
+}
 
 # Display the script content
 Write-Host "Downloaded Script Content:"
-Write-Host $scriptContent.Content
+Write-Host $scriptContent
 
 # Save the script to a temporary file
 $tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
-Set-Content -Path $tempScriptPath -Value $scriptContent.Content
+Set-Content -Path $tempScriptPath -Value $scriptContent
 
 Write-Host "Executing Bootstrap Script"
 # Execute the downloaded script with the same parameters
