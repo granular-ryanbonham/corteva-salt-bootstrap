@@ -8,9 +8,9 @@ set -Eeu
 __fetch_url() {
 
     # shellcheck disable=SC2086
-    curl $_CURL_ARGS -L -s -f -o "$1" "$2" >/dev/null 2>&1     ||
-        wget $_WGET_ARGS -q -O "$1" "$2" >/dev/null 2>&1       ||
-            fetch $_FETCH_ARGS -q -o "$1" "$2" >/dev/null 2>&1 ||  # FreeBSD
+    curl -L -s -f -o "$1" "$2" >/dev/null 2>&1     ||
+        wget -q -O "$1" "$2" >/dev/null 2>&1       ||
+            fetch -q -o "$1" "$2" >/dev/null 2>&1 ||  # FreeBSD
                 fetch -q -o "$1" "$2" >/dev/null 2>&1          ||  # Pre FreeBSD 10
                     ftp -o "$1" "$2" >/dev/null 2>&1           ||  # OpenBSD
                         (echoerror "$2 failed to download to $1"; exit 1)
