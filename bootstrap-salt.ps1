@@ -14,7 +14,13 @@ Set-Content -Path $tempScriptPath -Value $scriptContent.Content
 
 Write-Host "Executing Bootstrap Script"
 # Execute the downloaded script with the same parameters
-Start-Process powershell -ArgumentList "-File `"$tempScriptPath`" $($args -join ' ')" -Verb RunAs -Wait
+$process =  Start-Process powershell -ArgumentList "-File `"$tempScriptPath`" $($args -join ' ')" -Verb RunAs -Wait  -PassThru
+
+# Check the exit code and raise an error if it's not 0
+if ($process.ExitCode -ne 0) {
+    Write-Host "Bootstrap script failed with exit code $($process.ExitCode)" -ForegroundColor red
+    exit 1
+}
 
 Write-Host "Clean up the temporary file"
 # Clean up the temporary file
