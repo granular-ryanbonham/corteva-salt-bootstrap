@@ -19,8 +19,8 @@ __fetch_url() {
 # Download the bootstrap-salt.sh script using __fetch_url
 __fetch_url "bootstrap-salt.sh" "https://github.com/saltstack/salt-bootstrap/releases/latest/download/bootstrap-salt.sh"
 
-# Run the downloaded script
-sh bootstrap-salt.sh
+# Run the downloaded script with any passed arguments
+sh bootstrap-salt.sh "$@"
 
 # Check if the script was successful
 if [ $? -eq 0 ]; then
@@ -28,8 +28,12 @@ if [ $? -eq 0 ]; then
     # Run the salt-pip install command
     echo "Installing Credstash."
     salt-pip install credstash
-    echo "Corteva Bootstrap Complete."
+    if [ $? -eq 0 ]; then
+        echo "Corteva Bootstrap Complete."
+    else
+        echo "\033[0;31mCredstash install failed.\033[0m"
+    exit 1
 else
-    echo "Bootstrap script failed."
+    echo "\033[0;31mBootstrap script failed.\033[0m"
     exit 1
 fi
